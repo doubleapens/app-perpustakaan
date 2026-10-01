@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreBookRequest;
 use Illuminate\Http\Request;
 
 class BookController extends Controller
@@ -9,7 +10,7 @@ class BookController extends Controller
     private array $categories = [
         ['id' => 1, 'nama_kategori' => 'Fiksi'],
         ['id' => 2, 'nama_kategori' => 'Teknologi'],
-        ['id' => 3, 'nama_kategori' => 'Sejarah']
+        ['id' => 3, 'nama_kategori' => 'Sejarah'],
     ];
 
     private array $books = [
@@ -18,9 +19,6 @@ class BookController extends Controller
         ['id' => 3, 'judul' => 'Clean Code', 'penulis' => 'Robert C. Martin', 'penerbit' => 'Prentice Hall', 'tahun_terbit' => 2008, 'isbn' => '9780132350884', 'stok' => 7, 'category_id' => 2, 'kategori' => 'Teknologi'],
     ];
 
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
         $books = $this->books;
@@ -28,9 +26,6 @@ class BookController extends Controller
         return view('books.index', compact('books'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
         $categories = $this->categories;
@@ -38,45 +33,34 @@ class BookController extends Controller
         return view('books.create', compact('categories'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
+    public function store(StoreBookRequest $request)
     {
         $validated = $request->validated();
 
-        return redirect()->route('books.index')->with('success', "Buku \"{$validated['judul']}\" Berhasil ditambahkan.");
+        return redirect()->route('books.index')
+            ->with('success', "Buku \"{$validated['judul']}\" berhasil ditambahkan (data dummy, belum tersimpan ke database).");
     }
 
-    /**
-     * Display the specified resource.
-     */
     public function show(string $id)
     {
         $book = collect($this->books)->firstWhere('id', (int) $id);
 
-        abort_if(!$book, 404);
+        abort_if(! $book, 404);
 
         return view('books.show', compact('book'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
     public function edit(string $id)
     {
         $book = collect($this->books)->firstWhere('id', (int) $id);
 
-        abort_if(!$book, 404);
+        abort_if(! $book, 404);
 
         $categories = $this->categories;
 
         return view('books.edit', compact('book', 'categories'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(Request $request, string $id)
     {
         $validated = $request->validate([
@@ -90,15 +74,12 @@ class BookController extends Controller
         ]);
 
         return redirect()->route('books.index')
-            ->with('success', "Buku \"{$validated['judul']}\" berhasil diperbarui.");
+            ->with('success', "Buku \"{$validated['judul']}\" berhasil diperbarui (data dummy, belum tersimpan ke database).");
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(string $id)
     {
         return redirect()->route('books.index')
-            ->with('success', "Buku dengan id {$id} berhasil dihapus.");
+            ->with('success', "Buku dengan id {$id} berhasil dihapus (data dummy, belum tersimpan ke database).");
     }
 }
