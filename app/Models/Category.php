@@ -8,5 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 #[Fillable(['nama_kategori', 'deskripsi'])]
 class Category extends Model
 {
-    //
+    public function books()
+    {
+        return $this->hasMany(Book::class);
+    }
 }

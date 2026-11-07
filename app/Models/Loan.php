@@ -15,5 +15,27 @@ use Illuminate\Database\Eloquent\Model;
 ])]
 class Loan extends Model
 {
-    //
+    protected function casts(): array
+    {
+        return [
+            'tanggal_pinjam' => 'date',
+            'tanggal_kembali' => 'date',
+            'tanggal_dikembalikan' => 'date',
+        ];
+    }
+
+    public function member()
+    {
+        return $this->belongsTo(Member::class);
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
+    public function loanItems()
+    {
+        return $this->hasMany(LoanItem::class);
+    }
 }

@@ -4,6 +4,7 @@
 
 @section('content')
 <h1>Daftar Anggota</h1>
+<a class="btn" href="{{ route('members.create') }}">Tambah Anggota</a>
 
 <table>
     <thead>
@@ -19,12 +20,12 @@
     <tbody>
         @forelse ($members as $member)
         <tr>
-            <td>{{ $member['id'] }}</td>
-            <td>{{ $member['nama'] }}</td>
-            <td>{{ $member['nim'] }}</td>
-            <td>{{ $member['email'] }}</td>
-            <td>{{ $member['nomor_telepon'] }}</td>
-            <td>{{ ucfirst($member['status']) }}</td>
+            <td>{{ $member->id }}</td>
+            <td><a href="{{ route('members.show', $member) }}">{{ $member->nama }}</a></td>
+            <td>{{ $member->nim }}</td>
+            <td>{{ $member->email }}</td>
+            <td>{{ $member->nomor_telepon }}</td>
+            <td>{{ ucfirst($member->status) }}</td>
         </tr>
         @empty
         <tr>
@@ -33,6 +34,5 @@
         @endforelse
     </tbody>
 </table>
-
-<p><em>Catatan: data di atas masih data dummy (array statis di Controller). Form tambah/edit anggota dan CRUD lengkap anggota baru dibuat mulai Pertemuan 5.</em></p>
+{{ $members->links() }}
 @endsection

@@ -3,16 +3,15 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreBookRequest;
-use Illuminate\Http\Request;
-
 use App\Models\Book;
 use App\Models\Category;
+use Illuminate\Http\Request;
 
 class BookController extends Controller
 {
     public function index()
     {
-        $books = Book::paginate(10);
+        $books = Book::with('category')->paginate(10);
 
         return view('books.index', compact('books'));
     }
@@ -57,7 +56,7 @@ class BookController extends Controller
             'judul' => 'required|string|max:200',
             'penulis' => 'required|string|max:100',
             'penerbit' => 'required|string|max:100',
-            'tahun_terbit' => 'required|integer|min:1900|max:' . date('Y'),
+            'tahun_terbit' => 'required|integer|min:1900|max:'.date('Y'),
             'isbn' => 'nullable|string|max:20',
             'stok' => 'required|integer|min:0',
             'category_id' => 'required|integer|exists:categories,id',
